@@ -2,11 +2,13 @@
 <idea-plugin>
     <id>com.github.lokeshponnada.adbxpert</id>
     <name>adbXpert Template</name>
-    <vendor>lokeshponnada</vendor>
+    <vendor email="lokesh6spark@gmail.com">lokeshponnada</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
+
+    <description>adbXpert is the essential plugin for Android developers seeking an enhanced ADB (Android Debug Bridge) experience. Our intuitive user interface simplifies a multitude of ADB operations, transforming your development workflow and boosting productivity. With adbXpert, you can efficiently manage, troubleshoot, and optimize Android devices, all within a single, user-friendly platform. Say hello to a more productive, developer-friendly approach to ADB</description>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="com.github.lokeshponnada.adbxpert.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
@@ -15,4 +17,20 @@
     <applicationListeners>
         <listener class="com.github.lokeshponnada.adbxpert.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+
+    <actions>
+        <group
+                id="adbXpert"
+                description="Adb operations">
+            <action
+                    id="com.github.lokeshponnada.adbxpert.AdbAction"
+                    class="com.github.lokeshponnada.adbxpert.AdbAction"
+                    text="Launch adbXpert"
+                    description="Launch adbXpert"/>
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </group>
+    </actions>
+
+
+
 </idea-plugin>
