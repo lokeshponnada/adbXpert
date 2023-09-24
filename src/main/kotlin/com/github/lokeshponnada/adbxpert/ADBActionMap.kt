@@ -11,8 +11,7 @@ class ADBActionMap {
         val CHANGE_TARGET_APP = "Change Target App"
 
         val actionsMap = mapOf(
-            "Set Target App" to "TAKE-INPUT",
-            "List ADB Ops" to "adb",
+
             "Launch App" to "adb shell monkey -p $targetApp -c android.intent.category.LAUNCHER 1",
             "Kill App" to "adb shell am force-stop $targetApp",
             "Clear App Data" to "adb shell pm clear $targetApp",
@@ -20,6 +19,9 @@ class ADBActionMap {
 
             "Show Layout Bounds" to "adb shell setprop debug.layout true && adb shell service call activity 1599295570",
             "Hide Layout Bounds" to "adb shell setprop debug.layout false && adb shell service call activity 1599295570",
+
+            "Enable Talkback" to "adb shell settings put secure enabled_accessibility_services com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService\n",
+            "Disable Talkback" to "adb shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService",
 
             "Kill Server - ADB" to "adb kill-server",
             "Start Server - ADB" to "adb start-server",
