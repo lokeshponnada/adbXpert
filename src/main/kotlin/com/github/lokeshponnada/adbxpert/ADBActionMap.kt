@@ -5,10 +5,11 @@ class ADBActionMap {
 
     companion object{
 
-        var targetApp = "com.onepeloton.callisto.dev"
+        var targetApp = ""
 
         val SET_TARGET_APP = "Set Target App"
         val CHANGE_TARGET_APP = "Change Target App"
+
 
         val actionsMap = mapOf(
 

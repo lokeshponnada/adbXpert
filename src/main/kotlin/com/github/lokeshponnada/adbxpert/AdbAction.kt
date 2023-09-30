@@ -4,8 +4,11 @@ import com.github.lokeshponnada.adbxpert.ADBActionMap.Companion.CHANGE_TARGET_AP
 import com.github.lokeshponnada.adbxpert.ADBActionMap.Companion.SET_TARGET_APP
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogBuilder
+import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBList
+import com.intellij.ui.components.JBTextField
 import java.awt.BorderLayout
 import java.io.File
 import java.io.IOException
@@ -21,21 +24,38 @@ class AdbAction : AnAction() {
         // Create a dialog builder
         val dialogBuilder = DialogBuilder(project)
 
+        val isTargetAppSet = ADBActionMap.targetApp.isNotBlank()
 
-        val targetAppFieldText = if (ADBActionMap.targetApp.isBlank())
-                                        SET_TARGET_APP
-                                 else CHANGE_TARGET_APP
+        val targetAppButtonText = if (isTargetAppSet)
+                                        CHANGE_TARGET_APP
+                                    else SET_TARGET_APP
+        val targetAppButton = JButton()
+        targetAppButton.text = "$targetAppButtonText"
+        targetAppButton.addActionListener {
+            dialogBuilder.dialogWrapper.close(DialogWrapper.CLOSE_EXIT_CODE)
+            showTargetAppDialog(project)
+        }
 
-        val inputTextField = JTextField()
-        inputTextField.text = "$targetAppFieldText (Enter package name)"
+
         val inputPanel = JPanel()
         inputPanel.layout = BorderLayout()
-        inputPanel.add(inputTextField, BorderLayout.CENTER)
+        inputPanel.add(targetAppButton, BorderLayout.CENTER)
 
-
-        // Create a list of items
-        val itemList = ADBActionMap.actionsMap.keys.toList()
         val listModel = DefaultListModel<String>()
+        val keysToRemove = mutableSetOf<String>()
+
+
+        if(isTargetAppSet){
+            // Provide a button with change target app text
+            // Show a text with current target app
+            listModel.addElement("Current Target App - ${ADBActionMap.targetApp}")
+        }else{
+            // provide a button with set target app text
+            // do not show launch, kill, clear, uninstall app
+            keysToRemove.addAll(setOf("Launch App","Kill App","Clear App Data","Uninstall App"))
+        }
+
+        val itemList = ADBActionMap.actionsMap.keys.filter { key -> !keysToRemove.contains(key) }
         itemList.forEach { itemText ->
            listModel.addElement(itemText)
         }
@@ -54,24 +74,12 @@ class AdbAction : AnAction() {
             }
         }
 
-
-
-
         val mainPanel = JPanel(BorderLayout())
         mainPanel.add(inputPanel, BorderLayout.NORTH)
         mainPanel.add(list, BorderLayout.CENTER)
 
         dialogBuilder.setCenterPanel(mainPanel)
 
-//        dialogBuilder.setOkOperation {
-//            val userInput = inputTextField.text
-//            val packageNameRegex = "^[a-z][a-z\\d]*(\\.[a-z\\d]+)*$".toRegex()
-//            val isValidPackageName = packageNameRegex.matches(userInput)
-//            if(isValidPackageName){
-//                ADBActionMap.targetApp = userInput
-//            }
-//            dialogBuilder.dialogWrapper.close(0)
-//        }
 
         dialogBuilder.setOkActionEnabled(false)
         dialogBuilder.show()
@@ -94,5 +102,46 @@ class AdbAction : AnAction() {
             null
         }
     }
+
+
+    private fun showTargetAppDialog(project: Project?) {
+        val dialogBuilder = DialogBuilder(project)
+        dialogBuilder.title("Set Target App")
+
+        val label = JLabel("Enter Package Name")
+        val textField = JBTextField() // Input text field
+
+
+        val contentPanel = JPanel()
+        contentPanel.layout = BorderLayout()
+        contentPanel.add(label, BorderLayout.NORTH)
+        contentPanel.add(textField, BorderLayout.CENTER)
+
+        dialogBuilder.centerPanel(contentPanel)
+
+        dialogBuilder.setOkOperation {
+            val inputText = textField.text
+            val packageNameRegex = "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$".toRegex()
+            val isValidPackageName = packageNameRegex.matches(inputText)
+
+            if (isValidPackageName) {
+                // Handle the valid package name
+                ADBActionMap.targetApp = inputText
+                JOptionPane.showMessageDialog(null, "Target App Set to - $inputText")
+                dialogBuilder.dialogWrapper.close(DialogWrapper.OK_EXIT_CODE)
+            } else {
+                // Handle an invalid package name
+                JOptionPane.showMessageDialog(null, "Not a valid package name - $inputText")
+            }
+        }
+
+        // Set an action listener for the Cancel button
+        dialogBuilder.setCancelOperation {
+            dialogBuilder.dialogWrapper.close(DialogWrapper.CANCEL_EXIT_CODE)
+        }
+
+        dialogBuilder.showModal(true)
+    }
+
 
 }
