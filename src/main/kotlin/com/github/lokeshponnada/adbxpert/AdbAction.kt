@@ -33,22 +33,27 @@ class AdbAction : AnAction() {
         inputPanel.add(inputTextField, BorderLayout.CENTER)
 
 
-//        if (ADBActionMap.targetApp.isNotBlank()){ listModel.addElement("Current Target App : ${ADBActionMap.targetApp}") }
-
         // Create a list of items
         val itemList = ADBActionMap.actionsMap.keys.toList()
-        val listModel = DefaultListModel<JButton>()
+        val listModel = DefaultListModel<String>()
         itemList.forEach { itemText ->
-            val button = JButton(itemText)
-            button.addActionListener {
-                val actionToExecute = ADBActionMap.actionsMap[itemText]
-                val output = actionToExecute!!.runCommand(File("/Users/lokeshponnada/Library/Android/sdk/platform-tools"))
-                println("Executed Action : $output")
-            }
-            listModel.addElement(button)
+           listModel.addElement(itemText)
         }
         val list = JBList(listModel)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
+
+        list.addListSelectionListener {
+            if(!it.valueIsAdjusting){
+                val selIndex = list.selectedIndex
+                if(selIndex >= 0){
+                    val selItem = listModel.getElementAt(selIndex)
+                    val actionToExecute = ADBActionMap.actionsMap[selItem]
+                    val actionRes = actionToExecute?.runCommand(File("/Users/lokeshponnada/Library/Android/sdk/platform-tools"))
+                    println("Executed Action : $actionRes")
+                }
+            }
+        }
+
 
 
 
@@ -58,16 +63,17 @@ class AdbAction : AnAction() {
 
         dialogBuilder.setCenterPanel(mainPanel)
 
-        dialogBuilder.setOkOperation {
-            val userInput = inputTextField.text
-            val packageNameRegex = "^[a-z][a-z\\d]*(\\.[a-z\\d]+)*$".toRegex()
-            val isValidPackageName = packageNameRegex.matches(userInput)
-            if(isValidPackageName){
-                ADBActionMap.targetApp = userInput
-            }
-            dialogBuilder.dialogWrapper.close(0)
-        }
+//        dialogBuilder.setOkOperation {
+//            val userInput = inputTextField.text
+//            val packageNameRegex = "^[a-z][a-z\\d]*(\\.[a-z\\d]+)*$".toRegex()
+//            val isValidPackageName = packageNameRegex.matches(userInput)
+//            if(isValidPackageName){
+//                ADBActionMap.targetApp = userInput
+//            }
+//            dialogBuilder.dialogWrapper.close(0)
+//        }
 
+        dialogBuilder.setOkActionEnabled(false)
         dialogBuilder.show()
 
     }
