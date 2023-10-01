@@ -1,22 +1,17 @@
 package com.github.lokeshponnada.adbxpert
 
+import com.github.lokeshponnada.adbxpert.AdbAction.Companion.targetApp
+
 class ADBActionMap {
 
 
     companion object{
 
-        var targetApp = ""
-
-        val SET_TARGET_APP = "Set Target App"
-        val CHANGE_TARGET_APP = "Change Target App"
+        const val SET_TARGET_APP = "Set Target App"
+        const val CHANGE_TARGET_APP = "Change Target App"
 
 
-        val actionsMap = mapOf(
-
-            "Launch App" to "adb shell monkey -p $targetApp -c android.intent.category.LAUNCHER 1",
-            "Kill App" to "adb shell am force-stop $targetApp",
-            "Clear App Data" to "adb shell pm clear $targetApp",
-            "Uninstall App" to "adb shell pm uninstall $targetApp",
+        var actionsMap = mapOf(
 
             "Show Layout Bounds" to "adb shell setprop debug.layout true && adb shell service call activity 1599295570",
             "Hide Layout Bounds" to "adb shell setprop debug.layout false && adb shell service call activity 1599295570",

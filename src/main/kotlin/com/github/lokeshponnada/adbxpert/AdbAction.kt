@@ -18,13 +18,19 @@ import javax.swing.*
 
 class AdbAction : AnAction() {
 
+    companion object{
+        var targetApp = ""
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
+
+        targetApp = AdbPluginState().getMyString()
 
         // Create a dialog builder
         val dialogBuilder = DialogBuilder(project)
 
-        val isTargetAppSet = ADBActionMap.targetApp.isNotBlank()
+        val isTargetAppSet = targetApp.isNotBlank()
 
         val targetAppButtonText = if (isTargetAppSet)
                                         CHANGE_TARGET_APP
@@ -42,20 +48,27 @@ class AdbAction : AnAction() {
         inputPanel.add(targetAppButton, BorderLayout.CENTER)
 
         val listModel = DefaultListModel<String>()
-        val keysToRemove = mutableSetOf<String>()
+
 
 
         if(isTargetAppSet){
             // Provide a button with change target app text
             // Show a text with current target app
-            listModel.addElement("Current Target App - ${ADBActionMap.targetApp}")
+            listModel.addElement("Current Target App - ${targetApp}")
+            val appSpecificMap = mapOf(
+                "Launch App" to "adb shell monkey -p $targetApp -c android.intent.category.LAUNCHER 1",
+                "Kill App" to "adb shell am force-stop $targetApp",
+                "Clear App Data" to "adb shell pm clear $targetApp",
+                "Uninstall App" to "adb shell pm uninstall $targetApp",
+            )
+            val modifiedMap = appSpecificMap + ADBActionMap.actionsMap
+            ADBActionMap.actionsMap = modifiedMap
         }else{
             // provide a button with set target app text
             // do not show launch, kill, clear, uninstall app
-            keysToRemove.addAll(setOf("Launch App","Kill App","Clear App Data","Uninstall App"))
         }
 
-        val itemList = ADBActionMap.actionsMap.keys.filter { key -> !keysToRemove.contains(key) }
+        val itemList = ADBActionMap.actionsMap.keys
         itemList.forEach { itemText ->
            listModel.addElement(itemText)
         }
@@ -65,12 +78,10 @@ class AdbAction : AnAction() {
         list.addListSelectionListener {
             if(!it.valueIsAdjusting){
                 val selIndex = list.selectedIndex
-                if(selIndex >= 0){
-                    val selItem = listModel.getElementAt(selIndex)
-                    val actionToExecute = ADBActionMap.actionsMap[selItem]
-                    val actionRes = actionToExecute?.runCommand(File("/Users/lokeshponnada/Library/Android/sdk/platform-tools"))
-                    println("Executed Action : $actionRes")
-                }
+                val selItem = listModel.getElementAt(selIndex)
+                val actionToExecute = ADBActionMap.actionsMap[selItem]
+                val actionRes = actionToExecute?.runCommand(File("/Users/lokeshponnada/Library/Android/sdk/platform-tools"))
+                println("Executed Action $actionToExecute - Result : $actionRes")
             }
         }
 
@@ -126,7 +137,7 @@ class AdbAction : AnAction() {
 
             if (isValidPackageName) {
                 // Handle the valid package name
-                ADBActionMap.targetApp = inputText
+                saveTargetApp(inputText)
                 JOptionPane.showMessageDialog(null, "Target App Set to - $inputText")
                 dialogBuilder.dialogWrapper.close(DialogWrapper.OK_EXIT_CODE)
             } else {
@@ -141,6 +152,11 @@ class AdbAction : AnAction() {
         }
 
         dialogBuilder.showModal(true)
+    }
+
+    private fun saveTargetApp(packageName:String){
+        val pluginState = AdbPluginState()
+        pluginState.setMyString(packageName)
     }
 
 
