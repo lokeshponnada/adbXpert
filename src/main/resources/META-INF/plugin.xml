@@ -23,8 +23,8 @@
                 id="adbXpert"
                 description="Adb operations">
             <action
-                    id="com.github.lokeshponnada.adbxpert.AdbAction"
-                    class="com.github.lokeshponnada.adbxpert.AdbAction"
+                    id="com.github.lokeshponnada.adbxpert.UI"
+                    class="com.github.lokeshponnada.adbxpert.UI"
                     text="Launch adbXpert"
                     description="Launch adbXpert"/>
             <add-to-group group-id="ToolsMenu" anchor="first"/>
