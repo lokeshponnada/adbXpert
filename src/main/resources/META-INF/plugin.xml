@@ -1,14 +1,14 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.lokeshponnada.adbxpert</id>
-    <name>adbXpert Template</name>
+    <name>AdbXpert</name>
     <vendor email="lokesh6spark@gmail.com">lokeshponnada</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
-    <description>adbXpert is the essential plugin for Android developers seeking an enhanced ADB (Android Debug Bridge) experience. Our intuitive user interface simplifies a multitude of ADB operations, transforming your development workflow and boosting productivity. With adbXpert, you can efficiently manage, troubleshoot, and optimize Android devices, all within a single, user-friendly platform. Say hello to a more productive, developer-friendly approach to ADB</description>
+    <description>adbXpert is the essential plugin for Android developers seeking an enhanced ADB (Android Debug Bridge) experience. It offers a multitude of ADB operations, transforming your development workflow and boosting productivity. With adbXpert, you can efficiently manage and troubleshoot in Android devices, all within a single plugin. Say hello to a more productive approach of using ADB tool</description>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="com.github.lokeshponnada.adbxpert.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
