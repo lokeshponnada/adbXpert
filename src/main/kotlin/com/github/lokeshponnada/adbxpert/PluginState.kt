@@ -4,8 +4,8 @@ import com.intellij.ide.util.PropertiesComponent
 
 class PluginState {
     companion object {
-         const val TargetApp = "TargetApp"
-         const val AdbPath = "AdbPath"
+         const val KEY_TARGET_APP = "TargetApp"
+         const val KEY_ADB_PATH = "AdbPath"
     }
 
     fun getMyString(key:String): String {

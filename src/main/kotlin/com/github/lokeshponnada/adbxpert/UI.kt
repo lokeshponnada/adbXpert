@@ -2,8 +2,8 @@ package com.github.lokeshponnada.adbxpert
 
 import com.github.lokeshponnada.adbxpert.AdbActions.Companion.CHANGE_TARGET_APP
 import com.github.lokeshponnada.adbxpert.AdbActions.Companion.SET_TARGET_APP
-import com.github.lokeshponnada.adbxpert.PluginState.Companion.AdbPath
-import com.github.lokeshponnada.adbxpert.PluginState.Companion.TargetApp
+import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_ADB_PATH
+import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_TARGET_APP
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileChooser.FileChooser
@@ -15,9 +15,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import java.awt.BorderLayout
-import java.io.File
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 import javax.swing.*
 
 
@@ -30,7 +28,7 @@ class UI : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
 
-        targetApp = PluginState().getMyString(PluginState.TargetApp)
+        targetApp = PluginState().getMyString(PluginState.KEY_TARGET_APP)
 
         // Create a dialog builder
         val dialogBuilder = DialogBuilder(project)
@@ -188,16 +186,16 @@ class UI : AnAction() {
 
     private fun saveTargetApp(packageName:String){
         val pluginState = PluginState()
-        pluginState.setMyString(TargetApp,packageName)
+        pluginState.setMyString(KEY_TARGET_APP,packageName)
     }
 
     private fun saveAdbPath(path:String){
         val pluginState = PluginState()
-        pluginState.setMyString(AdbPath,path)
+        pluginState.setMyString(KEY_ADB_PATH,path)
     }
 
     private fun getAdbPath():String{
-        return PluginState().getMyString(AdbPath)
+        return PluginState().getMyString(KEY_ADB_PATH)
     }
 
 

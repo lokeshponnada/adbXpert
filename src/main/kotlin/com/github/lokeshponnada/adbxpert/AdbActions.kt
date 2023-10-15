@@ -27,8 +27,6 @@ class AdbActions {
             "Print Device Release Version" to "ADBPATH shell getprop ro.build.version.release",
             "Reboot Connected Device" to "ADBPATH reboot",
 
-            // add app permissions
-            // add device rotation
         )
 
 

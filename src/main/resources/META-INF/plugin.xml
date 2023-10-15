@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.github.lokeshponnada.adbxpert</id>
     <name>AdbXpert</name>
-    <vendor email="lokesh6spark@gmail.com">lokeshponnada</vendor>
+    <vendor email="adbxpert@gmail.com">lokeshponnada</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
