@@ -7,3 +7,10 @@ Setup :
 
 Operations : 
 Clicking on option triggers the action
+
+
+<!-- Plugin description -->
+
+Provides common adb functionalities in a simple UI
+
+<!-- Plugin description end -->
