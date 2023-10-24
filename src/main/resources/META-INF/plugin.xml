@@ -23,7 +23,8 @@
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.lokeshponnada.adbxpert.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener class="com.github.lokeshponnada.adbxpert.listeners.MyApplicationActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
 
     <actions>
