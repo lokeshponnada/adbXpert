@@ -3,3 +3,4 @@
 .qodana
 build
 gradle.properties
+src/main/kotlin/com/github/lokeshponnada/adbxpert/PluginState.kt

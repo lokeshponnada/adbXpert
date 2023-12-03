@@ -197,6 +197,4 @@ class UI : AnAction() {
     private fun getAdbPath():String{
         return PluginState().getMyString(KEY_ADB_PATH)
     }
-
-
 }
