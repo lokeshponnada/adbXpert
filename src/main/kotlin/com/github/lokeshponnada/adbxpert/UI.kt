@@ -97,8 +97,10 @@ class UI : AnAction() {
                         val actionRes = modifiedCommand.runCommand()
                         if(actionRes.exitCode != 0){
                             showError(actionRes)
+                            MixPanelLogger.logEvent(actionToExecute,false)
                         }else {
                             println(actionRes.output)
+                            MixPanelLogger.logEvent(actionToExecute,true)
                         }
                     }
                 }else{

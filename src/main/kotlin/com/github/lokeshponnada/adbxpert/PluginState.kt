@@ -6,6 +6,7 @@ class PluginState {
     companion object {
          const val KEY_TARGET_APP = "TargetApp"
          const val KEY_ADB_PATH = "AdbPath"
+        const val api = ""
     }
 
     fun getMyString(key:String): String {
