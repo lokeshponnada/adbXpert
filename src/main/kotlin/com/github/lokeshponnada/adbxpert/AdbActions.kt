@@ -9,7 +9,7 @@ class AdbActions {
         const val SET_TARGET_APP = "Set Target App"
         const val CHANGE_TARGET_APP = "Change Target App"
 
-
+// app specific commands in UI.kt
         var actionsMap = mapOf(
 
             "Show Layout Bounds" to "ADBPATH shell setprop debug.layout true &&  ADBPATH shell service call activity 1599295570",
@@ -24,8 +24,14 @@ class AdbActions {
 
             "Start Server " to "ADBPATH start-server",
             "Kill Server " to "ADBPATH kill-server",
+
             "Print Device Release Version" to "ADBPATH shell getprop ro.build.version.release",
             "Reboot Connected Device" to "ADBPATH reboot",
+
+            "Bug Report" to "ADBPATH bugreport",
+
+            "Broadcast Boot Complete" to "ADBPATH shell am broadcast -a android.intent.action.BOOT_COMPLETED\n"
+
 
         )
 
