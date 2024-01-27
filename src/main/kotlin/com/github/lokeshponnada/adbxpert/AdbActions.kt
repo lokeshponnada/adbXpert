@@ -12,6 +12,8 @@ class AdbActions {
 // app specific commands in UI.kt
         var actionsMap = mapOf(
 
+            "Clear Logcat" to "ADBPATH logcat -c",
+
             "Show Layout Bounds" to "ADBPATH shell setprop debug.layout true &&  ADBPATH shell service call activity 1599295570",
             "Hide Layout Bounds" to "ADBPATH shell setprop debug.layout false && ADBPATH shell service call activity 1599295570",
 
@@ -29,10 +31,6 @@ class AdbActions {
             "Reboot Connected Device" to "ADBPATH reboot",
 
             "Bug Report" to "ADBPATH bugreport",
-
-            "Broadcast Boot Complete" to "ADBPATH shell am broadcast -a android.intent.action.BOOT_COMPLETED\n"
-
-
         )
 
 
