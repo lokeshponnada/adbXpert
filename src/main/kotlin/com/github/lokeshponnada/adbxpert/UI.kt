@@ -4,6 +4,8 @@ import com.github.lokeshponnada.adbxpert.AdbActions.Companion.CHANGE_TARGET_APP
 import com.github.lokeshponnada.adbxpert.AdbActions.Companion.SET_TARGET_APP
 import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_ADB_PATH
 import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_TARGET_APP
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileChooser.FileChooser
@@ -17,6 +19,7 @@ import com.intellij.ui.components.JBTextField
 import java.awt.BorderLayout
 import java.io.IOException
 import javax.swing.*
+import com.intellij.notification.Notifications
 
 
 class UI : AnAction() {
@@ -118,6 +121,21 @@ class UI : AnAction() {
         dialogBuilder.setOkActionEnabled(false)
         dialogBuilder.show()
 
+    }
+
+    /* Post any information after executing a command */
+    private fun postAnyAdditionalInfo(selectedItem:String){
+        if(selectedItem.contains("Simulate Slow Internet")){
+            showNotification("Heads Up!","Do not forget to disable throttling")
+        }
+    }
+
+    private fun showNotification(title:String, content:String){
+        val notification = Notification("com.github.lokeshponnada.adbxpert",
+            title,content,
+            NotificationType.WARNING
+        )
+        Notifications.Bus.notify(notification)
     }
 
     private fun showError(commandResult: CommandResult){

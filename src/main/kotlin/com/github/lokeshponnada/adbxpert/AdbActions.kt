@@ -20,6 +20,9 @@ class AdbActions {
             "Enable Talkback" to "ADBPATH shell settings put secure enabled_accessibility_services com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService\n",
             "Disable Talkback" to "ADBPATH shell settings put secure enabled_accessibility_services com.android.talkback/com.google.android.marvin.talkback.TalkBackService",
 
+            "Simulate Slow Internet" to "ADBPATH shell settings put global ingress_rate_limit_bytes_per_second 16000",
+            "Disable Network Throttling" to "ADBPATH shell settings put global ingress_rate_limit_bytes_per_second -1",
+
             "Launch Home" to "ADBPATH shell am start -W -c android.intent.category.HOME -a android.intent.action.MAIN",
             "Launch Settings App"       to "ADBPATH shell am start -n com.android.settings/.Settings",
             "Launch Developer Settings" to "ADBPATH shell am start -a com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS",

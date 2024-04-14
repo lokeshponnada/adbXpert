@@ -39,7 +39,4 @@
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </group>
     </actions>
-
-
-
 </idea-plugin>
