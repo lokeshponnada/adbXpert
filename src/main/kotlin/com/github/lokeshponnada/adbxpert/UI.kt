@@ -73,6 +73,7 @@ class UI : AnAction() {
                 "Kill App" to "ADBPATH shell am force-stop $targetApp",
                 "Clear App Data" to "ADBPATH shell pm clear $targetApp",
                 "Uninstall App" to "ADBPATH shell pm uninstall $targetApp",
+                "Trigger Critical Memory Event" to "ADBPATH shell am send-trim-memory $targetApp 15",
             )
             val modifiedMap = appSpecificMap + AdbActions.actionsMap
             AdbActions.actionsMap = modifiedMap

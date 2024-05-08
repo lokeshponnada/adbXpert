@@ -30,9 +30,7 @@ class AdbActions {
             "Start Server " to "ADBPATH start-server",
             "Kill Server " to "ADBPATH kill-server",
 
-            "Print Device Release Version" to "ADBPATH shell getprop ro.build.version.release",
             "Reboot Connected Device" to "ADBPATH reboot",
-
             "Bug Report" to "ADBPATH bugreport",
         )
 
