@@ -2,8 +2,6 @@ package com.github.lokeshponnada.adbxpert
 
 import com.github.lokeshponnada.adbxpert.AdbActions.Companion.CHANGE_TARGET_APP
 import com.github.lokeshponnada.adbxpert.AdbActions.Companion.SET_TARGET_APP
-import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_ADB_PATH
-import com.github.lokeshponnada.adbxpert.PluginState.Companion.KEY_TARGET_APP
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
@@ -24,14 +22,10 @@ import com.intellij.notification.Notifications
 
 class UI : AnAction() {
 
-    companion object{
-        var targetApp = ""
-    }
-
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
 
-        targetApp = PluginState().getMyString(PluginState.KEY_TARGET_APP)
+        targetApp = PluginState.getMyString(PluginState.KEYS.TARGET_APP)
 
         // Create a dialog builder
         val dialogBuilder = DialogBuilder(project)
@@ -42,7 +36,7 @@ class UI : AnAction() {
                                         CHANGE_TARGET_APP
                                     else SET_TARGET_APP
         val targetAppButton = JButton()
-        targetAppButton.text = "$targetAppButtonText"
+        targetAppButton.text = targetAppButtonText
         targetAppButton.addActionListener {
             dialogBuilder.dialogWrapper.close(DialogWrapper.CLOSE_EXIT_CODE)
             showTargetAppDialog(project)
@@ -206,16 +200,16 @@ class UI : AnAction() {
     }
 
     private fun saveTargetApp(packageName:String){
-        val pluginState = PluginState()
-        pluginState.setMyString(KEY_TARGET_APP,packageName)
+        PluginState.setMyString(PluginState.KEYS.TARGET_APP, packageName)
     }
 
     private fun saveAdbPath(path:String){
-        val pluginState = PluginState()
-        pluginState.setMyString(KEY_ADB_PATH,path)
+        PluginState.setMyString(PluginState.KEYS.ADB_PATH,path)
     }
 
     private fun getAdbPath():String{
-        return PluginState().getMyString(KEY_ADB_PATH)
+        return PluginState.getMyString(PluginState.KEYS.ADB_PATH)
     }
 }
+
+var targetApp = ""
